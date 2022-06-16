@@ -1,6 +1,6 @@
 0x00. Pascal's Triangle
 =======================
-How to generate Pascal triangle comprising od lists of list.
+How to generate Pascal triangle comprising of a list of lists.
 
 Introduction
 ------------
