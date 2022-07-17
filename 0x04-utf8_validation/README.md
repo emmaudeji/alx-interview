@@ -6,6 +6,7 @@ Resources
 
 -   [UTF-8](https://alx-intranet.hbtn.io/rltoken/oqFi6P1hNvp9aSuNv---IQ "UTF-8")
 -   [Characters, Symbols, and the Unicode Miracle](https://alx-intranet.hbtn.io/rltoken/d--jVK8sBSlhkosu7pFzdw "Characters, Symbols, and the Unicode Miracle")
+-   [watch](https://www.youtube.com/watch?v=MijmeoH9LT4)
 
 
 Tasks
