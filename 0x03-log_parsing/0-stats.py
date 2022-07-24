@@ -1,37 +1,52 @@
 #!/usr/bin/python3
-'''a script that reads stdin line by line and computes metrics'''
-
-
+'''reads stdin line by line and computes metrics'''
+import re
 import sys
+import signal
 
-cache = {'200': 0, '301': 0, '400': 0, '401': 0,
-         '403': 0, '404': 0, '405': 0, '500': 0}
-total_size = 0
-counter = 0
 
-try:
-    for line in sys.stdin:
-        line_list = line.split(" ")
-        if len(line_list) > 4:
-            code = line_list[-2]
-            size = int(line_list[-1])
-            if code in cache.keys():
-                cache[code] += 1
-            total_size += size
-            counter += 1
+toMatch = re.compile(
+                     r'^\d{1,3}\.\d{1,3}\.\d{1,3} \
+                     \.\d{1,3}\s\-\s\[[0-9]{4}\-[0-9] \
+                     {1,2}\-[0-9]{1,2}\s[0-9]{1,2}\: \
+                     [0-9]{1,2}\:[0-9]{1,2}.[0-9]{1,6}\] \
+                     \s\"GET\s\/projects\/260\sHTTP\/ \
+                     1\.1\"\s\d{3}\s\d{1,4}$')
+statusCodeTracker = {
+    '200': 0,
+    '301': 0,
+    '400': 0,
+    '401': 0,
+    '403': 0,
+    '404': 0,
+    '405': 0,
+    '500': 0
+}
+fileSizeTracker = 0
+lineCount = 0
 
-        if counter == 10:
-            counter = 0
-            print('File size: {}'.format(total_size))
-            for key, value in sorted(cache.items()):
-                if value != 0:
-                    print('{}: {}'.format(key, value))
 
-except Exception as err:
-    pass
+def handler():
+    return True
 
-finally:
-    print('File size: {}'.format(total_size))
-    for key, value in sorted(cache.items()):
-        if value != 0:
-            print('{}: {}'.format(key, value))
+
+for line in sys.stdin:
+    lineCount += 1
+    if toMatch.match(line) is False:
+        continue
+    withoutDash = line.replace('-', '')
+    arrayFromString = withoutDash.split(' ')
+    try:
+        statusCode = int(arrayFromString[6])
+        if arrayFromString[5] and isinstance(int(arrayFromString[6]), int):
+            statusCodeTracker[arrayFromString[6]] += 1
+        fileSizeTracker += int(arrayFromString[7])
+        if lineCount == 10 or signal.signal(signal.SIGINT, handler):
+            print('File size: {}'.format(fileSizeTracker))
+            for key, value in statusCodeTracker.items():
+                if statusCode not in statusCodeTracker.keys():
+                    continue
+                print('{}: {}'.format(key, value))
+            lineCount = 0
+    except:
+        pass
