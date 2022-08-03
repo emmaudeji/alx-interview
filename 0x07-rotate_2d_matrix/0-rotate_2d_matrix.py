@@ -1,10 +1,11 @@
 #!/usr/bin/python3
-
-'''scripts to rotate nxn 2D matrix clockwise
-return: Nothing '''
+'''rotate 2D matrix'''
 
 
 def rotate_2d_matrix(matrix):
+  '''rotates nxn 2D matrix clockwise
+  Return: Nothing '''
+  
   # step-1: transpose the matrix
   for i in range(len(matrix)):
     for j in range(i, len(matrix)):
@@ -15,4 +16,3 @@ def rotate_2d_matrix(matrix):
   for i in range(N//2):
     for j in range(N):
       matrix[j][i],matrix[j][N-1-i]=matrix[j][N-1-i],matrix[j][i]
-  
