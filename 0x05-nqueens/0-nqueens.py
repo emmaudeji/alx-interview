@@ -28,9 +28,9 @@ if __name__ == '__main__':
     # iterate thru rows
     while r < n:
         goback = False
-        # iterate through columns
+        # iterate thru columns
         while c < n:
-            # check if current column is safe
+            # check is current column is safe
             safe = True
             for cord in placed_queens:
                 col = cord[1]
@@ -46,7 +46,7 @@ if __name__ == '__main__':
                 c += 1
                 continue
 
-            # place the queen
+            # place queen
             cords = [r, c]
             placed_queens.append(cords)
             # if last row, append solution and reset all to last unfinished row
@@ -84,8 +84,8 @@ if __name__ == '__main__':
             continue
         r += 1
 
-    for i, val in enumerate(solutions):
-        if i == len(solutions) - 1:
+    for idx, val in enumerate(solutions):
+        if idx == len(solutions) - 1:
             print(val, end='')
         else:
             print(val)
